@@ -20,20 +20,9 @@
 
 
 // network declaration
-/*
-  const char* SSID = "Home&Life SuperWiFi-F829";
-  const char* PASSWORD = "G44B477ACAA34DK7";
 
-  const char* SSID = "Covid Free";      // Replace with your network name
-  const char* PASSWORD = "cosimino";    // Replace with your network psw
-
-  const char* SSID = "xxxxxxxxxx";      // Replace with your network name
-  const char* PASSWORD = "xxxxxxxxxxx";    // Replace with your network psw
-*/
-
-
-const char* SSID = "Iacopo wifi";        // Replace with your network name
-const char* PASSWORD = "trottola";       // Replace with your network psw
+const char* SSID = "xxxxxxxxxx";      // Replace with your network name
+const char* PASSWORD = "xxxxxxxxxxx";    // Replace with your network psw
 
 // Initialize Telegram BOT
 #define BOTtoken "1735101347:AAFVXkpBJkKWLETT39tuZycR59EcPM-_Ooo"  // your Bot Token (Get from Botfather)
