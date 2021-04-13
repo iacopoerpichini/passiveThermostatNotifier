@@ -1,2 +1,11 @@
 # passiveThermostatNotifier
-Human computer interaction project for thermostat interaction via telegram bot and Ubiquitous computing
+Human computer interaction project for thermostat interaction via telegram bot and Ubiquitous computing idea for notifications
+
+
+### Directories Layout
+
+```bash
+├── img
+│   ├── circuit.png   # circuit layout
+├── firmaware.ino     # node mcu v1.0 firmware
+```
