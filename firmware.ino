@@ -1,4 +1,4 @@
-/*
+/**
   Iacopo Erpichini
 
   IoT node for passive notification about temperature with a remote control using telegram bot
@@ -19,27 +19,9 @@
 #include "DHT.h"
 
 
-// network declaration
-
-const char* SSID = "xxxxxxxxxx";      // Replace with your network name
-const char* PASSWORD = "xxxxxxxxxxx";    // Replace with your network psw
-
-// Initialize Telegram BOT
-#define BOTtoken "1735101347:AAFVXkpBJkKWLETT39tuZycR59EcPM-_Ooo"  // your Bot Token (Get from Botfather)
-
-// Use @myidbot to find out the chat ID of an individual or a group
-// Also note that you need to click "start" on a bot before it can
-// message you
-#define CHAT_ID "1040419680"
-// used for security, this bot is yours no one can access to it only with the name
-WiFiClientSecure client;
-UniversalTelegramBot bot(BOTtoken, client);
-
-// Checks for new messages every 1 second
-int botRequestDelay = 1000;
-unsigned long lastTimeBotRan;
-
-// declaration pin
+/*************************+***********************+***********************+
+ ****************** Node mcu v1.0 pin definitions *************************
+ ***************************************************+**********************/
 const int ledRGBred = 12; // D6 on board
 const int ledRGBgreen = 14; // D5 on board
 const int ledRGBblue = 13; // D7 on board
@@ -47,18 +29,46 @@ const int buzzer = 5; // D1 on board
 const int DHT_PIN_DATA = 0; // D3 on board
 DHT dht(DHT_PIN_DATA);
 
+/*************************+***********************+*******
+ ****************** User setting *************************
+ ***************************************************+*****/
 
-// variables for set the desired temperature
+// network declaration
+const char* SSID = "xxxxxxxxxx";      // Replace with your network name
+const char* PASSWORD = "xxxxxxxxxxx";    // Replace with your network psw
+
+// Initialize Telegram BOT
+#define BOTtoken "xxxxx"  // your Bot Token (Get from Botfather)
+
+// Use @myidbot to find out the chat ID of an individual or a group
+// Also note that you need to click "start" on a bot before it can
+// message you
+#define CHAT_ID "xxxxxx"
+// used for security, this bot is yours no one can access to it only with the name
+WiFiClientSecure client;
+UniversalTelegramBot bot(BOTtoken, client);
+
+/*************************+***********************+*******
+ ************* Micro controller parameters ***************
+ ***************************************************+*****/
+
+// progressive time in millis for transaction of change color to notify change state
+const int CHANGE_DELAY = 50; // if higher the change is slower
+
+// Checks for new messages every 1 second
+int botRequestDelay = 1000;
+unsigned long lastTimeBotRan;
+
+// default variables for set the desired temperature in celsious
 int lower_bound = 16;
 int upper_bound = 24;
 
 // variables will change:
 int buttonState = 0;         // variable for reading the pushbutton status
 
+// setup of the micro controller
 void setup() {
-    // serial monitor 115200 baud
-    Serial.begin(115200);
-
+    Serial.begin(115200); // serial monitor 115200 baud
 #ifdef ESP8266
     client.setInsecure();
 #endif
@@ -68,7 +78,7 @@ void setup() {
     pinMode(ledRGBgreen, OUTPUT);
     pinMode(ledRGBblue, OUTPUT);
 
-    // aggiungo pin buzzer
+    // add pin buzzer
     pinMode(buzzer, OUTPUT);
 
     // Connect to Wi-Fi
@@ -78,17 +88,15 @@ void setup() {
         delay(1000);
         Serial.println("Connecting to WiFi..");
     }
-    // Print ESP32/ESP8266 Local IP Address
-    Serial.println(WiFi.localIP());
+    Serial.println(WiFi.localIP());     // Print ESP32/ESP8266 Local IP Address
 }
 
-// set a rgb color on led
+// set a rgb color on led with my function i don't use RGB-1.0.5 libraries provided
 void RGB_color(int red, int green, int blue) {
     analogWrite(ledRGBred, red);
     analogWrite(ledRGBgreen, green);
     analogWrite(ledRGBblue, blue);
 }
-
 
 // Handle what happens when you receive new messages
 void handleNewMessages(int numNewMessages) {
@@ -217,6 +225,7 @@ void handleNewMessages(int numNewMessages) {
     }
 }
 
+// function for change color for passive notification
 void trasactionRGB(unsigned int rgbColourEnd[3]) {
     unsigned int rgbColour[3];
     // Start off with red.
@@ -231,7 +240,7 @@ void trasactionRGB(unsigned int rgbColourEnd[3]) {
             rgbColour[decColour] -= 1;
             rgbColour[incColour] += 1;
             RGB_color(rgbColour[0], rgbColour[1], rgbColour[2]);
-            delay(50); // speed of change led on rgb lamp
+            delay(CHANGE_DELAY); // speed of change led on rgb lamp
         }
     }
 }
