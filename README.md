@@ -1,6 +1,8 @@
 # passiveThermostatNotifier
-Human computer interaction project for thermostat interaction via telegram bot and Ubiquitous computing idea for notifications
 
+HCI project for thermostat interaction via telegram bot and Ubiquitous computing idea for notifications
+
+...in progress...
 
 ### Directories Layout
 
