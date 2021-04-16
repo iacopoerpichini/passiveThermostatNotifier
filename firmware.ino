@@ -19,52 +19,79 @@
 #include "DHT.h"
 
 
-/*************************+***********************+***********************+
+/*************************************************************************+
  ****************** Node mcu v1.0 pin definitions *************************
- ***************************************************+**********************/
+ **************************************************************************/
 const int ledRGBred = 12; // D6 on board
 const int ledRGBgreen = 14; // D5 on board
 const int ledRGBblue = 13; // D7 on board
 const int buzzer = 5; // D1 on board
 const int DHT_PIN_DATA = 0; // D3 on board
+const int button = 15; //D8 on board
 DHT dht(DHT_PIN_DATA);
 
-/*************************+***********************+*******
+/*********************************************************
  ****************** User setting *************************
- ***************************************************+*****/
+ *********************************************************/
 
 // network declaration
-const char* SSID = "xxxxxxxxxx";      // Replace with your network name
-const char* PASSWORD = "xxxxxxxxxxx";    // Replace with your network psw
+
+
+const char* SSID = "xxx";
+const char* PASSWORD = "xxx";
 
 // Initialize Telegram BOT
-#define BOTtoken "xxxxx"  // your Bot Token (Get from Botfather)
+#define BOTtoken "xxx"  // your Bot Token (Get from Botfather)
 
 // Use @myidbot to find out the chat ID of an individual or a group
-// Also note that you need to click "start" on a bot before it can
-// message you
-#define CHAT_ID "xxxxxx"
+// Also note that you need to click "start" on a bot before it can message you
+#define CHAT_ID "xxx"
 // used for security, this bot is yours no one can access to it only with the name
 WiFiClientSecure client;
 UniversalTelegramBot bot(BOTtoken, client);
 
-/*************************+***********************+*******
+//Hue constants
+const char hueHubIP[] = "192.168.0.50";  //Hue Bridge IP
+const char hueUsername[] = "myhue";  //Hue username
+const int hueHubPort = 80;
+
+//Hue variables
+IPAddress server(192, 168, 0, 50); // insert your ip
+const int DELAY_HUE = 100000; //transaction time for hue
+
+// Hue color in JSON format using hue, saturation and brightness
+const String hueWhite = "{\"on\": true,\"hue\": 50100,\"sat\":255,\"bri\":255,\"transitiontime\":" + String(DELAY_HUE) + "}";
+const String hueRed = "{\"on\": true,\"hue\": 0,\"sat\":255,\"bri\":124,\"transitiontime\":" + String(DELAY_HUE) + "}";
+const String hueBlue = "{\"on\": true,\"hue\": 200,\"sat\":255,\"bri\":124,\"transitiontime\":" + String(DELAY_HUE) + "}";
+
+/*********************************************************
  ************* Micro controller parameters ***************
- ***************************************************+*****/
+ *********************************************************/
 
 // progressive time in millis for transaction of change color to notify change state
-const int CHANGE_DELAY = 50; // if higher the change is slower
+const int CHANGE_DELAY = 5; // if higher the change is slower
 
 // Checks for new messages every 1 second
 int botRequestDelay = 1000;
 unsigned long lastTimeBotRan;
 
 // default variables for set the desired temperature in celsious
-int lower_bound = 16;
-int upper_bound = 24;
+int lowerBound = 16;
+int upperBound = 24;
 
 // variables will change:
 int buttonState = 0;         // variable for reading the pushbutton status
+
+// led color
+unsigned int green[3] = {0, 255, 0};
+unsigned int red[3] = {255, 0, 0};
+unsigned int blue[3] = {0, 0, 255};
+
+// hue coloe
+
+/****************************************
+ **************** CODE ******************
+ ****************************************/
 
 // setup of the micro controller
 void setup() {
@@ -80,6 +107,9 @@ void setup() {
 
     // add pin buzzer
     pinMode(buzzer, OUTPUT);
+
+    // add pin button as input
+    pinMode(button, INPUT);
 
     // Connect to Wi-Fi
     WiFi.mode(WIFI_STA);
@@ -171,25 +201,25 @@ void handleNewMessages(int numNewMessages) {
         int bound = value.toInt();
 
         if (action == "/ub") {
-            if (bound <= lower_bound) {
+            if (bound <= lowerBound) {
                 bot.sendMessage(chat_id, "Warning: upper bound cannot be smaller than the lower bound.", "");
             } else {
-                upper_bound = bound;
-                bot.sendMessage(chat_id, ("Temperature bound: [" + String(lower_bound) + ", " + String(upper_bound) + "] C"), "");
+                upperBound = bound;
+                bot.sendMessage(chat_id, ("Temperature bound: [" + String(lowerBound) + ", " + String(upperBound) + "] C"), "");
             }
         }
 
         if (action == "/lb") {
-            if (bound >= upper_bound) {
+            if (bound >= upperBound) {
                 bot.sendMessage(chat_id, "Warning: lower bound cannot be bigger than the upper bound.", "");
             } else {
-                lower_bound = bound;
-                bot.sendMessage(chat_id, ("Temperature bound: [" + String(lower_bound) + ", " + String(upper_bound) + "] C"), "");
+                lowerBound = bound;
+                bot.sendMessage(chat_id, ("Temperature bound: [" + String(lowerBound) + ", " + String(upperBound) + "] C"), "");
             }
         }
 
         if (text == "/state") {
-            bot.sendMessage(chat_id, ("Temperature bound: [" + String(lower_bound) + ", " + String(upper_bound) + "] C"), "");
+            bot.sendMessage(chat_id, ("Temperature bound: [" + String(lowerBound) + ", " + String(upperBound) + "] C"), "");
         }
 
         if (text == "/start" || text == "/command")
@@ -222,6 +252,15 @@ void handleNewMessages(int numNewMessages) {
             bot.sendMessage(chat_id, command_list, "");
         }
 
+        /*if u want to add a new command on telegram follow this pattern
+          if (text == "<action>") {
+          // connect other sensor like a audio sensor for measuring a noise in a room
+          if(sensor.sense() > limit){
+            //do something
+           }
+          bot.sendMessage(chat_id, "Hello i'm a message", "");
+          }
+        */
     }
 }
 
@@ -247,21 +286,8 @@ void trasactionRGB(unsigned int rgbColourEnd[3]) {
 
 // loop function listen the message on the bot and pilot the passive notification on the rgb led
 void loop() {
-    float dhtTempC = dht.readTempC();
 
-    if (lower_bound < dhtTempC && dhtTempC < upper_bound) {
-        unsigned int white[3] = {255, 255, 255};
-        trasactionRGB(white);
-    }
-    if (dhtTempC > upper_bound) {
-        unsigned int red[3] = {255, 0, 0};
-        trasactionRGB(red);
-    }
-    if (lower_bound > dhtTempC) {
-        unsigned int blue[3] = {0, 0, 255};
-        trasactionRGB(blue);
-    }
-
+    // section that scan new messages on telegram bot
     if (millis() > lastTimeBotRan + botRequestDelay)  {
         int numNewMessages = bot.getUpdates(bot.last_message_received + 1);
         while (numNewMessages) {
@@ -271,4 +297,68 @@ void loop() {
         }
         lastTimeBotRan = millis();
     }
+
+    // action related to sensor
+    float dhtTempC = dht.readTempC();
+    if (lowerBound < dhtTempC && dhtTempC < upperBound) {
+        trasactionRGB(green); // led on node mcu
+        //setHue(1, hueWhite); // philips hue lamp
+    }
+    if (dhtTempC > upperBound) {
+        trasactionRGB(red); // led on node mcu
+        //setHue(1, hueRed); // philips hue lamp 1
+    }
+    if (lowerBound > dhtTempC) {
+        trasactionRGB(blue); // led on node mcu
+        //setHue(1, hueBlue); // philips hue lamp
+    }
+
+
+    // action related on board button
+    buttonState = digitalRead(button); // read the state of the button
+    Serial.println(buttonState);
+    // reset the bound of temperature and the light of consequence turn to white
+    if (buttonState == HIGH) {
+        Serial.println("Reset pressed");
+    }
+
+
+}
+
+
+// HUE INTEGRATION
+
+/* setHue() is a command function, which needs to be passed a light number and a
+   properly formatted command string in JSON format.
+   It then makes a simple HTTP PUT request to the Bridge at the IP specified at the start.
+
+   Made according to philips hue api site: https://developers.meethue.com/develop/get-started-2/
+*/
+boolean setHue(int lightNum, String command)
+{
+    Serial.println("setHue");
+    if (client.connect(server, 80))
+    {
+        Serial.println(F("connected to server"));
+        while (client.connected() && WiFi.status() == WL_CONNECTED)
+        {
+            client.print(F("PUT /api/"));
+            client.print(hueUsername);
+            client.print(F("/lights/"));
+            client.print(lightNum);  // hueLight zero based, add 1
+            client.println(F("/state HTTP/1.1"));
+            client.println(F("keep-alive"));
+            client.print(F("Host: "));
+            client.println(hueHubIP);
+            client.print(F("Content-Length: "));
+            client.println(command.length());
+            client.println(F("Content-Type: text/plain;charset=UTF-8"));
+            client.println();  // blank line before body
+            client.println(command);  // Hue command
+        }
+        client.stop();
+        return true;  // command executed
+    }
+    else
+        return false;  // command failed
 }
