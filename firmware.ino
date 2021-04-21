@@ -89,6 +89,7 @@ unsigned int blue[3] = {0, 0, 255};
 
 // hue coloe
 
+
 /****************************************
  **************** CODE ******************
  ****************************************/
@@ -320,8 +321,17 @@ void loop() {
     // reset the bound of temperature and the light of consequence turn to white
     if (buttonState == HIGH) {
         Serial.println("Reset pressed");
+        for (int i = 0; i < 6; i++) { // notify the user that have press the button
+            RGB_color(255, 0, 0); // Red
+            delay(200);
+            RGB_color(0, 0, 0); // Red
+            delay(200);
+        }
+        // set the bound for have the white lamp
+        lowerBound -= 5;
+        upperBound += 5;
+        bot.sendMessage(CHAT_ID, "Warning: User play reset button.\nRemember to change the temperature bound!", "");
     }
-
 
 }
 
