@@ -40,15 +40,16 @@ DHT dht(DHT_PIN_DATA);
 const char* SSID = "xxx";
 const char* PASSWORD = "xxx";
 
+
 // Initialize Telegram BOT
-#define BOTtoken "xxx"  // your Bot Token (Get from Botfather)
+#define BOTtoken "1735101347:AAFVXkpBJkKWLETT39tuZycR59EcPM-_Ooo"  // your Bot Token (Get from Botfather)
 
 // Use @myidbot to find out the chat ID of an individual or a group
 // Also note that you need to click "start" on a bot before it can message you
-#define CHAT_ID "xxx"
+#define CHAT_ID "1040419680"
 // used for security, this bot is yours no one can access to it only with the name
-WiFiClientSecure client;
-UniversalTelegramBot bot(BOTtoken, client);
+WiFiClientSecure client_bot;
+UniversalTelegramBot bot(BOTtoken, client_bot);
 
 //Hue constants
 const char hueHubIP[] = "192.168.0.50";  //Hue Bridge IP
@@ -60,9 +61,18 @@ IPAddress server(192, 168, 0, 50); // insert your ip
 const int DELAY_HUE = 100000; //transaction time for hue
 
 // Hue color in JSON format using hue, saturation and brightness
-const String hueWhite = "{\"on\": true,\"hue\": 50100,\"sat\":255,\"bri\":255,\"transitiontime\":" + String(DELAY_HUE) + "}";
+const String hueWhite = "{\"on\": true,\"hue\": 50100,\"sat\":255,\"bri\":255,\"transitiontime\":" + String(0) + "}";
 const String hueRed = "{\"on\": true,\"hue\": 0,\"sat\":255,\"bri\":124,\"transitiontime\":" + String(DELAY_HUE) + "}";
 const String hueBlue = "{\"on\": true,\"hue\": 200,\"sat\":255,\"bri\":124,\"transitiontime\":" + String(DELAY_HUE) + "}";
+WiFiClient client_hue;
+
+// THINGSPEAK integration
+const char *host_thingspeak = "api.thingspeak.com";        //IP address of the thingspeak server
+const char *api_key_thingspeak = "67NL6AJESRNRYJMY";       //Your own thingspeak api_key
+const int httpPort = 80;                                   //thingspeak port
+long uploadTime = 60000;                                   //upload time for thingspeak every 60 sec
+long differenceUpload = 0;
+WiFiClient client_thingspeak;
 
 /*********************************************************
  ************* Micro controller parameters ***************
@@ -87,8 +97,6 @@ unsigned int green[3] = {0, 255, 0};
 unsigned int red[3] = {255, 0, 0};
 unsigned int blue[3] = {0, 0, 255};
 
-// hue coloe
-
 
 /****************************************
  **************** CODE ******************
@@ -98,9 +106,8 @@ unsigned int blue[3] = {0, 0, 255};
 void setup() {
     Serial.begin(115200); // serial monitor 115200 baud
 #ifdef ESP8266
-    client.setInsecure();
+    client_bot.setInsecure();
 #endif
-
     // connect led rgb pin
     pinMode(ledRGBred, OUTPUT);
     pinMode(ledRGBgreen, OUTPUT);
@@ -120,6 +127,10 @@ void setup() {
         Serial.println("Connecting to WiFi..");
     }
     Serial.println(WiFi.localIP());     // Print ESP32/ESP8266 Local IP Address
+
+    while (!client_thingspeak.connect(host_thingspeak, httpPort)) {
+        Serial.println("Connection Failed");
+    }
 }
 
 // set a rgb color on led with my function i don't use RGB-1.0.5 libraries provided
@@ -333,6 +344,11 @@ void loop() {
         bot.sendMessage(CHAT_ID, "Warning: User play reset button.\nRemember to change the temperature bound!", "");
     }
 
+    //Upload Temperature Humidity every 60 seconds in thingspeak.com
+    if (millis() - differenceUpload > uploadTime) {
+        uploadTemperatureHumidity();
+        differenceUpload = millis();
+    }
 }
 
 
@@ -347,28 +363,45 @@ void loop() {
 boolean setHue(int lightNum, String command)
 {
     Serial.println("setHue");
-    if (client.connect(server, 80))
+    if (client_hue.connect(server, 80))
     {
         Serial.println(F("connected to server"));
-        while (client.connected() && WiFi.status() == WL_CONNECTED)
+        while (client_hue.connected() && WiFi.status() == WL_CONNECTED)
         {
-            client.print(F("PUT /api/"));
-            client.print(hueUsername);
-            client.print(F("/lights/"));
-            client.print(lightNum);  // hueLight zero based, add 1
-            client.println(F("/state HTTP/1.1"));
-            client.println(F("keep-alive"));
-            client.print(F("Host: "));
-            client.println(hueHubIP);
-            client.print(F("Content-Length: "));
-            client.println(command.length());
-            client.println(F("Content-Type: text/plain;charset=UTF-8"));
-            client.println();  // blank line before body
-            client.println(command);  // Hue command
+            client_hue.print(F("PUT /api/"));
+            client_hue.print(hueUsername);
+            client_hue.print(F("/lights/"));
+            client_hue.print(lightNum);  // hueLight zero based, add 1
+            client_hue.println(F("/state HTTP/1.1"));
+            client_hue.println(F("keep-alive"));
+            client_hue.print(F("Host: "));
+            client_hue.println(hueHubIP);
+            client_hue.print(F("Content-Length: "));
+            client_hue.println(command.length());
+            client_hue.println(F("Content-Type: text/plain;charset=UTF-8"));
+            client_hue.println();  // blank line before body
+            client_hue.println(command);  // Hue command
         }
-        client.stop();
+        client_hue.stop();
         return true;  // command executed
     }
     else
         return false;  // command failed
 }
+
+//upload temperature humidity data to thingspeak.com
+void uploadTemperatureHumidity() {
+    float dhtTempC = dht.readTempC();
+    float dhtHumidity = dht.readHumidity(); // Reading humidity in %
+    if (!client_thingspeak.connect(host_thingspeak, httpPort)) {
+        Serial.println("connection failed thingspeak");
+        return;
+    }
+    Serial.println("upload");
+    // Four values (field1 field2 field3 field4) have been set in thingspeak.com
+    client_thingspeak.print(String("GET ") + "/update?api_key=" + api_key_thingspeak + "&field1=" + dhtTempC + "&field2=" + dhtHumidity + " HTTP/1.1\r\n" + "Host: " + host_thingspeak + "\r\n" + "Connection: close\r\n\r\n");
+    while (client_thingspeak.available()) {
+        String line = client_thingspeak.readStringUntil('\r');
+        Serial.print(line);
+    }
+}}
