@@ -1,5 +1,7 @@
 # passiveThermostatNotifier
 
+![License](https://img.shields.io/github/license/)
+
 This project provided a new interface for notifications using the idea of Ubiquitous Computing in smart home system.
 It’s realized with a Micro Controller with a Wi-fi module onboard, it’s designed for all type of sensor and show the notification in passive way with a RGB Wi-Fi bulb.
 In this case the bulb is related to a temperature sensor and the notification are about how much cold or hotter the house is.
