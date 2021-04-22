@@ -5,7 +5,7 @@ It’s realized with a Micro Controller with a Wi-fi module onboard, it’s desi
 In this case the bulb is related to a temperature sensor and the notification are about how much cold or hotter the house is.
 The thermostat system it is built using low-cost components and Open Source platformsto make it reproduced by everyone.
 
-In this project are developed a phisycal device and an interface via a Telegram bot.
+In this project are developed a physical device and an interface via a Telegram bot.
 
 ...in progress...
 
