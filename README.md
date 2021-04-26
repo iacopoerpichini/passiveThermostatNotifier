@@ -2,9 +2,6 @@
 
 [![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/licenses/MIT)
 
-###
-...in progress...
-
 This project provided a new interface for notifications using the idea of Ubiquitous Computing in smart home system.
 It’s realized with a Micro Controller with a Wi-fi module onboard, it’s designed for all type of sensor and show the notification in passive way with a RGB Wi-Fi bulb.
 In this case the bulb is related to a temperature sensor and the notification are about how much cold or hotter the house is.
@@ -25,16 +22,16 @@ In this project are developed a physical device and an interface via a Telegram 
 | **ArduinoJson** | tested on v6.17.3   | 
 
 To install ESP8266 Add-on in Arduino IDE:
-  1 - Go to File > Preferences
-  2 - Enter http://arduino.esp8266.com/stable/package_esp8266com_index.json into the “Additional Boards Manager URLs” field. Then, click the “OK” button.
-  3 - Open the Boards Manager. Go to Tools > Board > Boards Manager
-  4 - Search and install ESP8266 by ESP8266 Community library
-  5 - Use Generic ESP8266 Board in Tools
+  1. Go to File > Preferences
+  2. Enter http://arduino.esp8266.com/stable/package_esp8266com_index.json into the “Additional Boards Manager URLs” field. Then, click the “OK” button.
+  3. Open the Boards Manager. Go to Tools > Board > Boards Manager
+  4. Search and install ESP8266 by ESP8266 Community library
+  5. Use Generic ESP8266 Board in Tools
   
 Also install the ArduinoJson library.
 
-  1 - Go to Skech > Include Library > Manage Libraries.
-  2 - Search and install “ArduinoJson”.
+  1. Go to Skech > Include Library > Manage Libraries.
+  2. Search and install “ArduinoJson”.
 
 ### Directories Layout
 
