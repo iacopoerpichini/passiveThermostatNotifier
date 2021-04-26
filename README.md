@@ -27,6 +27,17 @@ It is also possible to notify people near the sensor with a buzzer.
 
 <img src="https://github.com/iacopoerpichini/passiveThermostatNotifier/blob/master/img/logo.PNG" height="100" width="100">
 
+To create a Telegram bot:
+  1. Open BotFather available at this [link](https://t.me/botfather)
+  2. Click the start button and type `/newbot` and follow the instructions to create your bot. Give it a name and username.
+  3. If your bot is successfully created, you’ll receive a message with a link to access the bot and the bot token.
+
+Anyone that knows your bot username can interact with it. 
+
+To make sure that the bot ignore messages that are not from any authorized users, you can get your Telegram User ID.
+Then, when your telegram bot receives a message, the ESP can check whether the sender ID corresponds to your User ID and handle the message or ignore it.
+Open [IDBot](t.me/myidbot) and type `/getid` and use it in the firmware.
+
 #### ThingSpeak
 
 The device also use a ThingSpeak channel available [here](https://thingspeak.com/channels/1367465) to display all the data collected.
