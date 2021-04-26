@@ -61,11 +61,12 @@ The device also use a ThingSpeak channel available [here](https://thingspeak.com
 To make a Channel follow the[ThingSpeak Official Documentation](https://www.mathworks.com/help/thingspeak/collect-data-in-a-new-channel.html).
 
 ### Requirements
-| Software        | Version             |
-| ----------------|---------------------|
-| **Arduino IDE** | tested on v1.8.3    | 
-| **ESP8266**     | tested on v2.5.2    | 
-| **ArduinoJson** | tested on v6.17.3   | 
+| Software                           | Version             |
+| -----------------------------------|---------------------|
+| **Arduino IDE**                    | tested on v1.8.3    | 
+| **ESP8266**                        | tested on v2.5.2    | 
+| **ArduinoJson**                    | tested on v6.17.3   | 
+| **Universal Telegram Bot Library** | tested on v1.3.0    | 
 
 To install ESP8266 Add-on in Arduino IDE:
   1. Go to File > Preferences
@@ -74,10 +75,11 @@ To install ESP8266 Add-on in Arduino IDE:
   4. Search and install ESP8266 by ESP8266 Community library
   5. Use Generic ESP8266 Board in Tools
   
-Also install the ArduinoJson library.
+Also install the ArduinoJson and Universal Telegram Bot Librarys.
 
   1. Go to Skech > Include Library > Manage Libraries.
-  2. Search and install “ArduinoJson”.
+  2. Search library.
+  3. Check the version and install the library.
 
 ### Usage
 
