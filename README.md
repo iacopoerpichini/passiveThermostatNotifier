@@ -9,6 +9,22 @@ The thermostat system it is built using low-cost components and Open Source plat
 
 In this project are developed a physical device and an interface via a Telegram bot.
 
+### Directories Layout
+
+```bash
+├── 3DModel                             # contains two file tipe of box model
+│   ├── stl
+│   ├── ctb
+├── Sensor Library and Examples         # a series of sensors library to remake this project
+│   ├── DHT                             # sensor used in thermostat device          
+│   ├── ...
+├── UniversalTelegramBot-1.3.0 Library  # used to make the Telegram bot
+├── img                                 # image used in readme/paper
+│   ├── ...
+├── documentation.pdf                   # guide to reproduce all the work
+├── firmaware.ino                       # node mcu v1.0 firmware made with arduino ide
+```
+
 #### Device
 The device can be installed in an environment connected to a smart bulb that changes color and light intensity in relation to the temperature measured by a sensor.
 The light bulb color changes slowly.
@@ -41,7 +57,9 @@ Open [IDBot](t.me/myidbot) and type `/getid` and use it in the firmware.
 #### ThingSpeak
 
 The device also use a ThingSpeak channel available [here](https://thingspeak.com/channels/1367465) to display all the data collected.
+
 To make a Channel follow the[ThingSpeak Official Documentation](https://www.mathworks.com/help/thingspeak/collect-data-in-a-new-channel.html).
+
 ### Requirements
 | Software        | Version             |
 | ----------------|---------------------|
@@ -60,22 +78,6 @@ Also install the ArduinoJson library.
 
   1. Go to Skech > Include Library > Manage Libraries.
   2. Search and install “ArduinoJson”.
-
-### Directories Layout
-
-```bash
-├── 3DModel                             # contains two file tipe of box model
-│   ├── stl
-│   ├── ctb
-├── Sensor Library and Examples         # a series of sensors library to remake this project
-│   ├── DHT                             # sensor used in thermostat device          
-│   ├── ...
-├── UniversalTelegramBot-1.3.0 Library  # used to make the Telegram bot
-├── img                                 # image used in readme/paper
-│   ├── ...
-├── documentation.pdf                   # guide to reproduce all the work
-├── firmaware.ino                       # node mcu v1.0 firmware made with arduino ide
-```
 
 ### Usage
 
