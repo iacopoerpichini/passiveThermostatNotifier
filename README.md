@@ -21,6 +21,20 @@ In this project are developed a physical device and an interface via a Telegram 
 | Software        | Version             |
 | ----------------|---------------------|
 | **Arduino IDE** | tested on v1.8.3    | 
+| **ESP8266**     | tested on v2.5.2    | 
+| **ArduinoJson** | tested on v6.17.3   | 
+
+To install ESP8266 Add-on in Arduino IDE:
+  1 - Go to File > Preferences
+  2 - Enter http://arduino.esp8266.com/stable/package_esp8266com_index.json into the “Additional Boards Manager URLs” field. Then, click the “OK” button.
+  3 - Open the Boards Manager. Go to Tools > Board > Boards Manager
+  4 - Search and install ESP8266 by ESP8266 Community library
+  5 - Use Generic ESP8266 Board in Tools
+  
+Also install the ArduinoJson library.
+
+  1 - Go to Skech > Include Library > Manage Libraries.
+  2 - Search and install “ArduinoJson”.
 
 ### Directories Layout
 
