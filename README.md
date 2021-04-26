@@ -2,13 +2,15 @@
 
 [![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/licenses/MIT)
 
-This project provided a new interface for notifications using the idea of Ubiquitous Computing in smart home system.
-It’s realized with a Micro Controller with a Wi-fi module onboard, it’s designed for all type of sensor and show the notification in passive way with a RGB Wi-Fi bulb.
+### About
+
+This project provides a new interface for notifications using the idea of Ubiquitous Computing in smart home system.
+It is realized with a Micro Controller with a Wi-fi module onboard, it is designed for all type of sensor and show the notification in passive way with a RGB Wi-Fi bulb.
 In this case the bulb is related to a temperature sensor and the notification are about how much cold or hotter the house is.
 The thermostat system it is built using low-cost components and Open Source platformsto make it reproduced by everyone.
 
-In this project are developed a physical device and an interface via a Telegram bot.
 
+In this project are developed a physical device and an interface via a Telegram bot.
 ### Directories Layout
 
 ```bash
@@ -36,8 +38,9 @@ In this repo are provided all the 3D file used to print the cover of the device.
 <img src="https://github.com/iacopoerpichini/passiveThermostatNotifier/blob/master/img/animation.gif" height="240" width="320">
 
 #### Telegram bot
-This allows users to get real time information about temperature and humidity and to select a bound of desired temperature to change the color of the bulb.
-By default the temperature bounds are set on [16,24] Celsius degree.
+The bot allows users to get real-time information about temperature and humidity.
+Furthermore, it is also possible to select the desired temperature bound to change the bulb color.
+By default, temperature bounds are set on [16,24] Celsius degree.
 The bulb turns to red slowly if the temperature is higher than 24 degree and turns blue if is lower than 16 degree.
 It is also possible to notify people near the sensor with a buzzer.
 
@@ -45,7 +48,8 @@ It is also possible to notify people near the sensor with a buzzer.
 
 To create a Telegram bot:
   1. Open BotFather available at this [link](https://t.me/botfather)
-  2. Click the start button and type `/newbot` and follow the instructions to create your bot. Give it a name and username.
+  2. Click the start button and type `/newbot`.
+    - Then follow the instructions to create your bot. Give it a name and username.
   3. If your bot is successfully created, you’ll receive a message with a link to access the bot and the bot token.
 
 Anyone that knows your bot username can interact with it. 
@@ -82,8 +86,9 @@ Also install the ArduinoJson and Universal Telegram Bot Librarys.
   3. Check the version and install the library.
 
 ### Usage
-The first part of the Sketch is a highly commented setup code, in fact there are some global variables that need to be changed.
-These parameters are the Network SSID and password, the IP address of light bulb, the Telegram credential mentioned before and an extra public API token to make an integration with ThingSpeak which is an optional tool.
+The first part of the Sketch is a highly commented setup code
+There are some global variables that need to be changed.
+These parameters are the Network SSID and password, the IP address of light bulb, the Telegram credential mentioned before and an extra public API token to make an integration with ThingSpeak, which is an optional tool.
 
 After you have flash the code on the device and built the circuit, start chatting with the bot.
 
