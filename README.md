@@ -16,6 +16,7 @@ The device has a temperature sensor, a WiFi connection, a buzzer to receive acti
 There is also a build-in led that displays in real time the state of the temperature sensor.
 
 #### Telegram bot
+<img src="https://github.com/iacopoerpichini/passiveThermostatNotifier/blob/master/img/logo.PNG" height="300" width="300">
 This allows users to get real time information about temperature and humidity and to select a bound of desired temperature to change the color of the bulb.
 By default the temperature bounds are set on [16,24] Celsius degree.
 The bulb turns to red slowly if the temperature is higher than 24 degree and turns blue if is lower than 16 degree.
