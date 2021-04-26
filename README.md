@@ -87,7 +87,7 @@ These parameters are the Network SSID and password, the IP address of light bulb
 
 After you have flash the code on the device and built the circuit, start chatting with the bot.
 
-<img src="https://github.com/iacopoerpichini/passiveThermostatNotifier/blob/master/img/botscreen.png" height="1604" width="2148">
+<img src="https://github.com/iacopoerpichini/passiveThermostatNotifier/blob/master/img/botscreen.png" height="802" width="1.074">
 
 #### Thanks
 I want to thank my childhood friend Andrea for giving me the opportunity to 3D print the model.
