@@ -10,19 +10,20 @@ The thermostat system it is built using low-cost components and Open Source plat
 In this project are developed a physical device and an interface via a Telegram bot.
 
 #### Device
-<img src="https://github.com/iacopoerpichini/passiveThermostatNotifier/blob/master/img/animation.gif" height="480" width="640">
-
 The device can be installed in an environment connected to a smart bulb that changes color and light intensity in relation to the temperature measured by a sensor.
 The light bulb color changes slowly.
 The device has a temperature sensor, a WiFi connection, a buzzer to receive active notification via interaction with an interface and a button to stop the change of color bulb.
 There is also a build-in led that displays in real time the state of the temperature sensor.
+#### Render of 3D model
+In this repo are provided all the 3D file used to print the cover of the device.
+<img src="https://github.com/iacopoerpichini/passiveThermostatNotifier/blob/master/img/animation.gif" height="240" width="320">
 
 #### Telegram bot
-<img src="https://github.com/iacopoerpichini/passiveThermostatNotifier/blob/master/img/logo.PNG" height="100" width="100">
 This allows users to get real time information about temperature and humidity and to select a bound of desired temperature to change the color of the bulb.
 By default the temperature bounds are set on [16,24] Celsius degree.
 The bulb turns to red slowly if the temperature is higher than 24 degree and turns blue if is lower than 16 degree.
 It is also possible to notify people near the sensor with a buzzer.
+<img src="https://github.com/iacopoerpichini/passiveThermostatNotifier/blob/master/img/logo.PNG" height="100" width="100">
 
 #### ThingSpeak
 
