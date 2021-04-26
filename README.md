@@ -82,6 +82,10 @@ Also install the ArduinoJson and Universal Telegram Bot Librarys.
   3. Check the version and install the library.
 
 ### Usage
+The first part of the Sketch is a highly commented setup code, in fact there are some global variables that need to be changed.
+These parameters are the Network SSID and password, the IP address of light bulb, the Telegram credential mentioned before and an extra public API token to make an integration with ThingSpeak which is an optional tool.
+
+After you have flash the code on the device and built the circuit, start chatting with the bot.
 
 #### Thanks
 I want to thank my childhood friend Andrea for giving me the opportunity to 3D print the model.
