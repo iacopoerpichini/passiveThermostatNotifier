@@ -23,8 +23,8 @@ It is also possible to notify people near the sensor with a buzzer.
 
 #### ThingSpeak
 
-The device also use a ThingSpeak channel available [here]{https://thingspeak.com/channels/1367465} to display all the data collected.
-To make a Channel follow the[ThingSpeak Official Documentation]{https://www.mathworks.com/help/thingspeak/collect-data-in-a-new-channel.html}.
+The device also use a ThingSpeak channel available [here](https://thingspeak.com/channels/1367465) to display all the data collected.
+To make a Channel follow the[ThingSpeak Official Documentation](https://www.mathworks.com/help/thingspeak/collect-data-in-a-new-channel.html).
 ### Requirements
 | Software        | Version             |
 | ----------------|---------------------|
