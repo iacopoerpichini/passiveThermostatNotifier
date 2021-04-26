@@ -16,6 +16,7 @@ The device has a temperature sensor, a WiFi connection, a buzzer to receive acti
 There is also a build-in led that displays in real time the state of the temperature sensor.
 #### Render of 3D model
 In this repo are provided all the 3D file used to print the cover of the device.
+
 <img src="https://github.com/iacopoerpichini/passiveThermostatNotifier/blob/master/img/animation.gif" height="240" width="320">
 
 #### Telegram bot
@@ -23,6 +24,7 @@ This allows users to get real time information about temperature and humidity an
 By default the temperature bounds are set on [16,24] Celsius degree.
 The bulb turns to red slowly if the temperature is higher than 24 degree and turns blue if is lower than 16 degree.
 It is also possible to notify people near the sensor with a buzzer.
+
 <img src="https://github.com/iacopoerpichini/passiveThermostatNotifier/blob/master/img/logo.PNG" height="100" width="100">
 
 #### ThingSpeak
