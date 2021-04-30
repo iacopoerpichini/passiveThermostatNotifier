@@ -9,8 +9,10 @@ It is realized with a Micro Controller with a Wi-fi module onboard, it is design
 In this case the bulb is related to a temperature sensor and the notification are about how much cold or hotter the house is.
 The thermostat system it is built using low-cost components and Open Source platformsto make it reproduced by everyone.
 
-
 In this project are developed a physical device and an interface via a Telegram bot.
+
+The [documentation.pdf](https://github.com/iacopoerpichini/passiveThermostatNotifier/blob/master/documentation.pdf) provided can be used like a manual to build the whole system.
+
 ### Directories Layout
 
 ```bash
