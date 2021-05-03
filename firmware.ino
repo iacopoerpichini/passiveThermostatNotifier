@@ -34,15 +34,12 @@ DHT dht(DHT_PIN_DATA);
  ****************** User setting *************************
  *********************************************************/
 
-// network declaration
-
-
-const char* SSID = "xxx";
-const char* PASSWORD = "xxx";
+const char* SSID = "network_name";        // Replace with your network name
+const char* PASSWORD = "password";       // Replace with your network psw
 
 
 // Initialize Telegram BOT
-#define BOTtoken "1735101347:AAFVXkpBJkKWLETT39tuZycR59EcPM-_Ooo"  // your Bot Token (Get from Botfather)
+#define BOTtoken "xxxxxxxxx:xxxxxxxxxxxxxxxxxxxxxxxxxxxxx"  // your Bot Token (Get from Botfather)
 
 // Use @myidbot to find out the chat ID of an individual or a group
 // Also note that you need to click "start" on a bot before it can message you
@@ -51,13 +48,13 @@ const char* PASSWORD = "xxx";
 WiFiClientSecure client_bot;
 UniversalTelegramBot bot(BOTtoken, client_bot);
 
-//Hue constants
+//Hue constants // need to rename
 const char hueHubIP[] = "192.168.0.50";  //Hue Bridge IP
 const char hueUsername[] = "myhue";  //Hue username
 const int hueHubPort = 80;
 
 //Hue variables
-IPAddress server(192, 168, 0, 50); // insert your ip
+IPAddress server(192, 168, 0, 50); // insert your hue ip
 const int DELAY_HUE = 100000; //transaction time for hue
 
 // Hue color in JSON format using hue, saturation and brightness
@@ -68,7 +65,7 @@ WiFiClient client_hue;
 
 // THINGSPEAK integration
 const char *host_thingspeak = "api.thingspeak.com";        //IP address of the thingspeak server
-const char *api_key_thingspeak = "67NL6AJESRNRYJMY";       //Your own thingspeak api_key
+const char *api_key_thingspeak = "replace with yours";     //Your own thingspeak api_key
 const int httpPort = 80;                                   //thingspeak port
 long uploadTime = 60000;                                   //upload time for thingspeak every 60 sec
 long differenceUpload = 0;
@@ -126,14 +123,14 @@ void setup() {
         delay(1000);
         Serial.println("Connecting to WiFi..");
     }
-    Serial.println(WiFi.localIP());     // Print ESP32/ESP8266 Local IP Address
+    Serial.println(WiFi.localIP());     // Print ESP8266 Local IP Address
 
     while (!client_thingspeak.connect(host_thingspeak, httpPort)) {
         Serial.println("Connection Failed");
     }
 }
 
-// set a rgb color on led with my function i don't use RGB-1.0.5 libraries provided
+// set a rgb color on led with my function it is possible to use RGB-1.0.5 libraries provided
 void RGB_color(int red, int green, int blue) {
     analogWrite(ledRGBred, red);
     analogWrite(ledRGBgreen, green);
@@ -168,19 +165,21 @@ void handleNewMessages(int numNewMessages) {
         // emit an alert sound
         if (text == "/alert") {
             bot.sendMessage(chat_id, "Sound alert", "");
-            tone(buzzer, 1000); // Send 1KHz sound signal...
-            delay(1000);        // ...for 1 sec
-            noTone(buzzer);     // Stop sound...
+            for (int i = 0; i < 3; i++) {
+                tone(buzzer, 1000); // Send 1KHz sound signal...
+                delay(1000);        // ...for 1 sec
+                noTone(buzzer);     // Stop sound...
+            }
         }
         // return the current temperature
-        if (text == "/temperature") {
+        else if (text == "/temperature") {
             float dhtTempC = dht.readTempC(); // Read temperature in Celsius, for Fahrenheit use .readTempF()
             String temp = String(dhtTempC);
             Serial.print(F("Temp: ")); Serial.print(dhtTempC); Serial.println(F(" [C]"));
             bot.sendMessage(chat_id, ("Home temperature: " + temp + " C"), "");
         }
         // return the current humidity
-        if (text == "/humidity") {
+        else if (text == "/humidity") {
             float dhtHumidity = dht.readHumidity(); // Reading humidity in %
             String humidity = String(dhtHumidity);
             Serial.print(F("Humidity: ")); Serial.print(dhtHumidity); Serial.print(F(" [%]\t"));
@@ -404,4 +403,4 @@ void uploadTemperatureHumidity() {
         String line = client_thingspeak.readStringUntil('\r');
         Serial.print(line);
     }
-}}
+}
