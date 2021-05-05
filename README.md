@@ -96,5 +96,25 @@ After you have flash the code on the device and built the circuit, start chattin
 
 <img src="https://github.com/iacopoerpichini/passiveThermostatNotifier/blob/master/img/botscreen.png" height="602" width="874">
 
+### The Telegram Keyboard
+Most of the commands in the telegram Keyboard are displayed.
+
+| Command                            | Description                        |
+| -----------------------------------|------------------------------------|
+| **/start**                         | run the bot and display the command| 
+| **/help**                          | explain functionality              | 
+| **/temperature**                   | see home temperature               | 
+| **/humidity**                      | see home humidity                  | 
+| **/command**                       | display the button of thermostat   | 
+| **/alert**                         | send an active notification        | 
+| **/state**                         | check temperature bound            | 
+| **/lower_bound**                   | instruction to set lower bound     |  
+| **/upper_bound**                   | instruction to set upper bound     | 
+| **/lb=<Integer>**                  | real method to set lower bound     | 
+| **/ub=<Integer>**                  | real method to set upper bound     | 
+
+
+
+
 #### Thanks
 I want to thank my childhood friend Andrea for giving me the opportunity to 3D print the model.
