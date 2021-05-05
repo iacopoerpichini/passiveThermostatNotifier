@@ -110,8 +110,8 @@ Most of the commands in the telegram Keyboard are displayed.
 | **/state**                         | check temperature bound            | 
 | **/lower_bound**                   | instruction to set lower bound     |  
 | **/upper_bound**                   | instruction to set upper bound     | 
-| **/lb=<Integer>**                  | real method to set lower bound     | 
-| **/ub=<Integer>**                  | real method to set upper bound     | 
+| **/lb=\<Integer\>**                  | real method to set lower bound     | 
+| **/ub=\<Integer\>**                  | real method to set upper bound     | 
 
 
 
